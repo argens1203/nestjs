@@ -1,91 +1,76 @@
-import neo4j from 'neo4j-driver';
-import { Injectable } from '@nestjs/common';
-
-const URL = 'bolt://localhost:7687';
-const user = 'neo4j';
-const password = 'password';
+import neo4j, { Driver, Result, Transaction } from 'neo4j-driver';
+import { Inject, Injectable, OnApplicationShutdown } from '@nestjs/common';
+import { NEO4J_DRIVER, NEO4J_OPTIONS } from './neo4j.const';
+import { Neo4jConfig } from './neo4j-config.interface';
+// import TransactionImpl from 'neo4j-driver-core/lib/transaction';
 
 @Injectable()
-export class Neo4jService {
-  constructor() {
-    this.driver = neo4j.driver(URL, neo4j.auth.basic(user, password));
-    this.session = this.driver.session();
+export class Neo4jService implements OnApplicationShutdown {
+  private readonly driver: Driver;
+  private readonly config: Neo4jConfig;
+
+  constructor(
+    @Inject(NEO4J_OPTIONS) config: Neo4jConfig,
+    @Inject(NEO4J_DRIVER) driver: Driver,
+  ) {
+    this.driver = driver;
+    this.config = config;
   }
 
-  driver: any;
-  session: any;
-
-  async put(name: string): Promise<string> {
-    const session = this.driver.session();
-
-    try {
-      const result = await session.run(
-        'CREATE (a:Person {name: $name}) RETURN a',
-        { name },
-      );
-
-      const singleRecord = result.records[0];
-      const node = singleRecord.get(0);
-
-      console.log(node.properties.name);
-      return node.properties.name;
-    } catch (e) {
-      console.error(e);
-      return 'failed';
-    } finally {
-      await session.close();
-      console.log('cleanup');
-    }
+  getDriver() {
+    return this.driver;
   }
 
-  async get(name: string): Promise<any> {
-    const session = this.driver.session();
-
-    try {
-      const result = await session.run(
-        'MATCH (a:Person {name: $name}) RETURN a',
-        { name },
-      );
-
-      // const singleRecord = result.records[0];
-      // const node = singleRecord.get(0);
-
-      // console.log(node.properties.name);
-      return result;
-    } catch (e) {
-      console.error(e);
-      return 'failed';
-    } finally {
-      await session.close();
-      console.log('cleanup');
-    }
+  getConfig() {
+    return this.config;
   }
 
-  async test(): Promise<string> {
-    const session = this.driver.session();
-    const personName = 'Alice';
-
-    try {
-      const result = await session.run(
-        'CREATE (a:Person {name: $name}) RETURN a',
-        { name: personName },
-      );
-
-      const singleRecord = result.records[0];
-      const node = singleRecord.get(0);
-
-      console.log(node.properties.name);
-      return node.properties.name;
-    } catch (e) {
-      console.error(e);
-      return 'failed';
-    } finally {
-      await session.close();
-      console.log('cleanup');
-    }
+  beginTransaction(database?: string): Transaction {
+    const session = this.getWriteSession(database);
+    return session.beginTransaction();
   }
 
-  cleanUp() {
-    this.driver.close();
+  getReadSession(database?: string) {
+    return this.driver.session({
+      database: database || this.config.database,
+      defaultAccessMode: neo4j.session.READ,
+    });
+  }
+
+  getWriteSession(database?: string) {
+    return this.driver.session({
+      database: database || this.config.database,
+      defaultAccessMode: neo4j.session.WRITE,
+    });
+  }
+
+  read(
+    cypher: string,
+    params?: Record<string, any>,
+    databaseOrTransaction?: string | Transaction,
+  ): Result {
+    // if (databaseOrTransaction instanceof TransactionImpl) {
+    //   return (<Transaction>databaseOrTransaction).run(cypher, params);
+    // }
+
+    const session = this.getReadSession(<string>databaseOrTransaction);
+    return session.run(cypher, params);
+  }
+
+  write(
+    cypher: string,
+    params?: Record<string, any>,
+    databaseOrTransaction?: string | Transaction,
+  ): Result {
+    // if (databaseOrTransaction instanceof TransactionImpl) {
+    //   return (<Transaction>databaseOrTransaction).run(cypher, params);
+    // }
+
+    const session = this.getWriteSession(<string>databaseOrTransaction);
+    return session.run(cypher, params);
+  }
+
+  onApplicationShutdown() {
+    return this.driver.close();
   }
 }

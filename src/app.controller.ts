@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Neo4jService } from './neo4j/neo4j.service';
+import { Neo4jSandboxService } from './neo4j-sandbox';
+// import { Neo4jService } from './neo4j/neo4j.service';
 
 class PutDbDto {
   name: string;
@@ -10,7 +11,7 @@ class PutDbDto {
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly dbService: Neo4jService,
+    private readonly dbService: Neo4jSandboxService,
   ) {}
 
   @Get()
