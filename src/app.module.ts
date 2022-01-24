@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Neo4jSandboxModule, Neo4jSandboxService } from './neo4j-sandbox';
 import { Neo4jModule } from './neo4j';
+import { NodeModule } from './node';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { Neo4jModule } from './neo4j';
       port: '7687',
     }),
     Neo4jSandboxModule,
+    NodeModule,
   ],
   controllers: [AppController],
   providers: [AppService, Neo4jSandboxService],
