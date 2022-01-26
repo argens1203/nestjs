@@ -1,5 +1,4 @@
-export class CreateNodeDto {
-  type: string;
-  data: string;
-  title: string;
-}
+import { OmitType } from '@nestjs/swagger';
+import { NodeEntity } from './node.entity';
+
+export class CreateNodeDto extends NodeEntity {}

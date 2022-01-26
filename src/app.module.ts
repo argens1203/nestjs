@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { Neo4jSandboxModule, Neo4jSandboxService } from './neo4j-sandbox';
 import { Neo4jModule } from './neo4j';
 import { NodeModule } from './node';
+import { APP_FILTER } from '@nestjs/core';
+import { Neo4jErrorFilter } from './neo4j/neo4j-error.filter';
 
 @Module({
   imports: [
@@ -18,6 +20,13 @@ import { NodeModule } from './node';
     NodeModule,
   ],
   controllers: [AppController],
-  providers: [AppService, Neo4jSandboxService],
+  providers: [
+    AppService,
+    Neo4jSandboxService,
+    {
+      provide: APP_FILTER,
+      useClass: Neo4jErrorFilter,
+    },
+  ],
 })
 export class AppModule {}
