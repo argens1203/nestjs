@@ -10,10 +10,11 @@ export class NodeService {
   async create(dto: CreateNodeDto) {
     const { data, type = 'TEXT', title = '', ref = '' } = dto;
 
-    return await this.writeAndExtract(
+    const records = await this.writeAndExtract(
       'CREATE (a:Node {data: $data, type: $type, title: $title, ref: $ref}) RETURN a',
       { data, type: type.toUpperCase(), title, ref: ref.toUpperCase() },
     );
+    return records[0];
   }
 
   async getByTitle(title: string) {
@@ -38,16 +39,16 @@ export class NodeService {
   async readAndExtract(cypher: string, params?: Record<string, any>) {
     const result = await this.dbService.read(cypher, params);
     const records = result.records || [];
-
-    return records
-      .map((rec: Neo4jRecord) => rec.keys.map((k) => rec.get(k).properties))
-      .flat(Infinity);
+    return this.extract(records);
   }
 
   async writeAndExtract(cypher: string, params?: Record<string, any>) {
     const result = await this.dbService.write(cypher, params);
     const records = result.records || [];
+    return this.extract(records);
+  }
 
+  extract(records: Neo4jRecord[]) {
     return records
       .map((rec: Neo4jRecord) => rec.keys.map((k) => rec.get(k).properties))
       .flat(Infinity);
