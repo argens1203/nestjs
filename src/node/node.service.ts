@@ -8,7 +8,7 @@ export class NodeService {
   constructor(private readonly dbService: Neo4jService) {}
 
   async create(dto: CreateNodeDto) {
-    const { data, type = 'TEXT', title, ref = '' } = dto;
+    const { data, type = 'TEXT', title = '', ref = '' } = dto;
 
     return await this.writeAndExtract(
       'CREATE (a:Node {data: $data, type: $type, title: $title, ref: $ref}) RETURN a',
