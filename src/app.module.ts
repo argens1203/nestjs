@@ -12,8 +12,8 @@ import { Neo4jErrorFilter } from './neo4j/neo4j-error.filter';
     Neo4jModule.forRoot({
       username: 'neo4j',
       password: 'password',
-      scheme: 'bolt',
-      host: 'localhost',
+      scheme: 'bolt', //was "bolt"
+      host: 'mygraph-neo4j.default.svc.cluster.local',
       port: '7687',
     }),
     Neo4jSandboxModule,
