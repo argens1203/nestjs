@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { NodeService } from './node.service';
 import { CreateNodeDto } from './create-node.dto';
 
@@ -19,6 +19,11 @@ export class NodeController {
   @Get()
   async scanNode(): Promise<any[]> {
     return await this.nodeService.scan();
+  }
+
+  @Delete(':ref')
+  async deleteNode(@Param() params): Promise<any> {
+    return await this.nodeService.deleteByRef(params.ref);
   }
 
   @Post('create-constraint')

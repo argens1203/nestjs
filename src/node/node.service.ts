@@ -32,6 +32,12 @@ export class NodeService {
     });
   }
 
+  async deleteByRef(ref: string) {
+    return await this.writeAndExtract('MATCH (n:Node {ref: $ref}) DELETE n', {
+      ref: ref.toUpperCase(),
+    });
+  }
+
   async scan() {
     return await this.readAndExtract('MATCH (a:Node) RETURN a');
   }

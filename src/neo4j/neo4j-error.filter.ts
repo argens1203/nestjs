@@ -5,6 +5,7 @@ import { Neo4jError } from 'neo4j-driver';
 @Catch(Neo4jError)
 export class Neo4jErrorFilter implements ExceptionFilter {
   catch(exception: Neo4jError, host: ArgumentsHost) {
+    console.error(exception);
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
 
