@@ -7,20 +7,18 @@ import { Neo4jSandboxModule, Neo4jSandboxService } from './neo4j-sandbox';
 import { Neo4jModule } from './neo4j';
 import { NodeModule } from './node';
 import { Neo4jErrorFilter } from './neo4j/neo4j-error.filter';
+import { databaseConfig } from 'src/configs/database.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env.local.neo4j',
+      load: [databaseConfig],
+      isGlobal: true,
     }),
     Neo4jModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        username: configService.get('NEO4J_USERNAME') || 'neo4j',
-        password: configService.get('NEO4J_PASSWORD') || 'password',
-        scheme: configService.get('NEO4J_SCHEME') || 'bolt', //was "bolt"
-        host: configService.get('NEO4J_HOST'),
-        port: +configService.get<number>('NEO4J_PORT'),
-      }),
+      useFactory: (configService: ConfigService) =>
+        configService.get('database'),
       inject: [ConfigService],
     }),
     Neo4jSandboxModule,

@@ -1,2 +1,3 @@
+#!/bin/bash
 ./create-docker-image.command && \
 kubectl apply -f ./k8s.yml
