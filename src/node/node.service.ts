@@ -2,18 +2,23 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Record as Neo4jRecord } from 'neo4j-driver-core';
 import { Neo4jService } from '../neo4j';
 import { CreateNodeDto } from './create-node.dto';
+import { generate as uuid } from 'short-uuid';
+import { CypherHelper, Action } from 'src/cypher-helper';
 
 @Injectable()
 export class NodeService {
   constructor(private readonly dbService: Neo4jService) {}
 
   async create(dto: CreateNodeDto) {
-    const { data, type = 'TEXT', title = '', ref = '' } = dto;
-
-    const records = await this.writeAndExtract(
-      'CREATE (a:Node {data: $data, type: $type, title: $title, ref: $ref}) RETURN a',
-      { data, type: type.toUpperCase(), title, ref: ref.toUpperCase() },
-    );
+    const { data, type = 'TEXT', title = '' } = dto;
+    const ref = uuid();
+    const obj = { data, type: type.toUpperCase(), title, ref };
+    const queryString = CypherHelper.getQueryString({
+      action: Action.CREATE,
+      type: 'Node',
+      params: obj,
+    });
+    const records = await this.writeAndExtract(queryString, obj);
     return records[0];
   }
 
