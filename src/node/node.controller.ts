@@ -25,9 +25,4 @@ export class NodeController {
   async deleteNode(@Param() params): Promise<any> {
     return await this.nodeService.deleteByRef(params.ref);
   }
-
-  @Post('create-constraint')
-  async addConstraint() {
-    return await this.nodeService.addUniqueConstraint();
-  }
 }

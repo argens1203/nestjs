@@ -1,76 +1,32 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { Record as Neo4jRecord } from 'neo4j-driver-core';
-import { Neo4jService } from '../neo4j';
-import { CreateNodeDto } from './create-node.dto';
+import { Injectable } from '@nestjs/common';
 import { generate as uuid } from 'short-uuid';
-import { CypherHelper, Action } from 'src/cypher-helper';
+import { RepositoryService } from 'src/repository/repository.service';
+import { CreateNodeDto } from './create-node.dto';
 
 @Injectable()
 export class NodeService {
-  constructor(private readonly dbService: Neo4jService) {}
+  constructor(private readonly repositoryService: RepositoryService) {}
 
   async create(dto: CreateNodeDto) {
-    const { data, type = 'TEXT', title = '' } = dto;
-    const ref = uuid();
+    const { data, type = 'TEXT', title = '', ref: _ref } = dto;
+    const ref = _ref ?? uuid();
     const obj = { data, type: type.toUpperCase(), title, ref };
-    const queryString = CypherHelper.getQueryString({
-      action: Action.CREATE,
-      type: 'Node',
-      params: obj,
-    });
-    const records = await this.writeAndExtract(queryString, obj);
-    return records[0];
+    return await this.repositoryService.create(obj);
   }
 
   async getByTitle(title: string) {
-    return this.dbService.read('MATCH (a:Node {title: $title}) RETURN a', {
-      title,
-    });
+    return await this.repositoryService.get({ title });
   }
 
   async getByRef(ref: string) {
-    if (!ref) {
-      throw new BadRequestException('Ref cannot be undefined when querying.');
-    }
-    return await this.readAndExtract('MATCH (a:Node {ref: $ref}) RETURN a', {
-      ref: ref.toUpperCase(),
-    });
+    return await this.repositoryService.get({ ref });
   }
 
   async deleteByRef(ref: string) {
-    return await this.writeAndExtract('MATCH (n:Node {ref: $ref}) DELETE n', {
-      ref: ref.toUpperCase(),
-    });
+    return await this.repositoryService.delete({ ref });
   }
 
   async scan() {
-    return await this.readAndExtract('MATCH (a:Node) RETURN a');
-  }
-
-  async readAndExtract(cypher: string, params?: Record<string, any>) {
-    const result = await this.dbService.read(cypher, params);
-    const records = result.records || [];
-    return this.extract(records);
-  }
-
-  async writeAndExtract(cypher: string, params?: Record<string, any>) {
-    const result = await this.dbService.write(cypher, params);
-    const records = result.records || [];
-    return this.extract(records);
-  }
-
-  extract(records: Neo4jRecord[]) {
-    return records
-      .map((rec: Neo4jRecord) => rec.keys.map((k) => rec.get(k).properties))
-      .flat(Infinity);
-  }
-
-  // TODO: move to migration
-  addUniqueConstraint() {
-    return this.dbService.write(
-      'CREATE CONSTRAINT UniqueRef ' +
-        'IF NOT EXISTS FOR (n:Node) ' +
-        'REQUIRE n.ref IS UNIQUE',
-    );
+    return await this.repositoryService.scan();
   }
 }

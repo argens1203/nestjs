@@ -8,6 +8,7 @@ import { Neo4jModule } from './neo4j';
 import { NodeModule } from './node';
 import { Neo4jErrorFilter } from './neo4j/neo4j-error.filter';
 import { databaseConfig } from 'src/configs/database.config';
+import { RelatinoshipModule } from './relationship';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { databaseConfig } from 'src/configs/database.config';
     }),
     Neo4jSandboxModule,
     NodeModule,
+    RelatinoshipModule,
   ],
   controllers: [AppController],
   providers: [

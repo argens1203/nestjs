@@ -4,7 +4,7 @@ import { CREATE, RETURN, MATCH, DELETE } from './cypher-keywords.const';
 
 export class CypherHelper {
   static getQueryString(input) {
-    const { action, type, params } = input;
+    const { action, type, params = {} } = input;
     const [pre, post] = this.getActions(action);
     return `${pre} (a: ${type} ${this.parameterize(params)}) ${post} a`;
   }
@@ -24,6 +24,9 @@ export class CypherHelper {
 
   static parameterize(obj: Record<string, any>) {
     const keys = Object.keys(obj);
+    if (keys.length === 0) {
+      return '';
+    }
     const params = keys.map((key) => `${key}: $${key}`).join(', ');
     return `{${params}}`;
   }
