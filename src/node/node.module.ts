@@ -8,5 +8,6 @@ import { NodeService } from './node.service';
   controllers: [NodeController],
   imports: [RepositoryModule.forRoot({ type: NODE })],
   providers: [NodeService],
+  exports: [NodeService],
 })
 export class NodeModule {}

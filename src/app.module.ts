@@ -9,6 +9,8 @@ import { NodeModule } from './node';
 import { Neo4jErrorFilter } from './neo4j/neo4j-error.filter';
 import { databaseConfig } from 'src/configs/database.config';
 import { RelatinoshipModule } from './relationship';
+import { DebugModule } from './debug/debug.module';
+import { SketchModule } from './sketch/sketch.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { RelatinoshipModule } from './relationship';
     Neo4jSandboxModule,
     NodeModule,
     RelatinoshipModule,
+    DebugModule,
+    SketchModule,
   ],
   controllers: [AppController],
   providers: [

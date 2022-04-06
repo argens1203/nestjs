@@ -8,14 +8,9 @@ export class NodeService {
   constructor(private readonly repositoryService: RepositoryService) {}
 
   async create(dto: CreateNodeDto) {
-    const { data, type = 'TEXT', title = '', ref: _ref } = dto;
-    const ref = _ref ?? uuid();
-    const obj = { data, type: type.toUpperCase(), title, ref };
+    const ref = uuid();
+    const obj = { ...dto, ref };
     return await this.repositoryService.create(obj);
-  }
-
-  async getByTitle(title: string) {
-    return await this.repositoryService.get({ title });
   }
 
   async getByRef(ref: string) {
