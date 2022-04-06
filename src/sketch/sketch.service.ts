@@ -1,9 +1,8 @@
 import { Injectable, NotImplementedException } from '@nestjs/common';
 import { CreateNodeDto } from 'src/node/create-node.dto';
-import { NodeType } from 'src/node/node-type.enum';
 import { NodeEntity } from 'src/node/node.entity';
 import { NodeService } from 'src/node/node.service';
-import { Presentation } from 'src/node/presentation.enum';
+import { Presentation, NodeType } from 'src/node/types';
 import { CreateSketchDto } from './create-sketch.dto';
 
 @Injectable()
