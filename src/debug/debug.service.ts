@@ -20,7 +20,6 @@ export class DebugService {
   }
 
   async query(qs) {
-    console.log('qs', qs);
     const result = await this.dbService.read(qs);
     const records = result.records || [];
     return this.extract(records);

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
-import { RelationshipService } from './relationship.service';
+import { RelationshipService } from '../relationship/relationship.service';
 
 @Controller('relationship')
 export class RelationshipController {
