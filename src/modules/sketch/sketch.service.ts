@@ -29,6 +29,9 @@ export class SketchService {
   }
 
   async scan(): Promise<NodeEntity[]> {
-    throw NotImplementedException;
+    const res = await this.nodeService.scan();
+    return res.filter(
+      (res) => res.preferredPresentation === Presentation.SKETCH,
+    );
   }
 }

@@ -1,4 +1,9 @@
-import { Inject, Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  Logger,
+  OnApplicationBootstrap,
+} from '@nestjs/common';
 import { Record as Neo4jRecord } from 'neo4j-driver-core';
 
 import { toTitleCase } from '../../../common/utils';
@@ -11,6 +16,7 @@ import { REPOSITORY_OPTIONS } from './repository.const';
 @Injectable()
 export class RepositoryService implements OnApplicationBootstrap {
   private readonly config: RepositoryConfig;
+  private readonly logger = new Logger(RepositoryService.name);
 
   constructor(
     private readonly dbService: Neo4jService,
@@ -56,12 +62,14 @@ export class RepositoryService implements OnApplicationBootstrap {
   }
 
   async readAndExtract(cypher: string, params?: Record<string, any>) {
+    this.logger.log(cypher);
     const result = await this.dbService.read(cypher, params);
     const records = result.records || [];
     return this.extract(records);
   }
 
   async writeAndExtract(cypher: string, params?: Record<string, any>) {
+    this.logger.log(cypher);
     const result = await this.dbService.write(cypher, params);
     const records = result.records || [];
     return this.extract(records);
