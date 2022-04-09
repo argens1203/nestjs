@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Neo4jModule } from './providers/neo4j/core';
-import { NodeModule } from './node';
-import { Neo4jErrorFilter } from './providers/neo4j/core/neo4j-error.filter';
 import { databaseConfig } from './configs/database.config';
-import { RelatinoshipModule } from './relationship';
 import { DebugModule } from './debug/debug.module';
 import { SketchModule } from './modules/sketch/sketch.module';
+import { NodeModule } from './node';
+import { Neo4jModule } from './providers/neo4j/core';
+import { Neo4jErrorFilter } from './providers/neo4j/core/neo4j-error.filter';
+import { RelatinoshipModule } from './relationship';
 
 @Module({
   imports: [

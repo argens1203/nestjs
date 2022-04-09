@@ -1,5 +1,5 @@
-import { NodeType } from './types/node-type.enum';
 import { PresentationConfig } from './types';
+import { NodeType } from './types/node-type.enum';
 
 export class NodeEntity {
   type: NodeType;

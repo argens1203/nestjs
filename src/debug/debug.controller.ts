@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+
 import { DebugService } from './debug.service';
 
 @Controller('debug')

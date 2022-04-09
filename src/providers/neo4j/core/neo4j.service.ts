@@ -1,7 +1,9 @@
-import neo4j, { Driver, Result, Transaction } from 'neo4j-driver';
 import { Inject, Injectable, OnApplicationShutdown } from '@nestjs/common';
-import { NEO4J_DRIVER, NEO4J_OPTIONS } from './neo4j.const';
+import neo4j, { Driver, Result, Transaction } from 'neo4j-driver';
+
 import { Neo4jConfig } from './neo4j-config.interface';
+import { NEO4J_DRIVER, NEO4J_OPTIONS } from './neo4j.const';
+
 // import TransactionImpl from 'neo4j-driver-core/lib/transaction';
 
 @Injectable()

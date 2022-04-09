@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { generate as uuid } from 'short-uuid';
+
 import { RepositoryService } from '../providers/neo4j/repository/repository.service';
 
 @Injectable()
