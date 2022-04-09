@@ -1,8 +1,8 @@
 import { Inject, Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { Record as Neo4jRecord } from 'neo4j-driver-core';
-import { Neo4jService } from 'src/neo4j';
-import { Action, CypherHelper } from 'src/repository/cypher-helper';
-import { toTitleCase } from 'src/utils';
+import { Neo4jService } from '../core';
+import { Action, CypherHelper } from './cypher-helper';
+import { toTitleCase } from '../../../common/utils';
 import { RepositoryConfig } from './repository-config.interface';
 import { REPOSITORY_OPTIONS } from './repository.const';
 

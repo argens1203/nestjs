@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { NodeModule } from 'src/node';
+import { NodeModule } from '../../node';
 import { SketchController } from './sketch.controller';
 import { SketchService } from './sketch.service';
 

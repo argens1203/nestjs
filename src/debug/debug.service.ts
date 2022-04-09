@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Neo4jService } from 'src/neo4j';
+import { Neo4jService } from '../providers/neo4j/core';
 import { Record as Neo4jRecord } from 'neo4j-driver-core';
 
 @Injectable()

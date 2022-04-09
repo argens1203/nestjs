@@ -1,8 +1,8 @@
 import { Injectable, NotImplementedException } from '@nestjs/common';
-import { CreateNodeDto } from 'src/node/create-node.dto';
-import { NodeEntity } from 'src/node/node.entity';
-import { NodeService } from 'src/node/node.service';
-import { Presentation, NodeType } from 'src/node/types';
+import { CreateNodeDto } from '../../node/create-node.dto';
+import { NodeEntity } from '../../node/node.entity';
+import { NodeService } from '../../node/node.service';
+import { Presentation, NodeType } from '../../node/types';
 import { CreateSketchDto } from './create-sketch.dto';
 
 @Injectable()

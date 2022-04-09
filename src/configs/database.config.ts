@@ -1,4 +1,4 @@
-import { Neo4jConfig } from 'src/neo4j/neo4j-config.interface';
+import { Neo4jConfig } from '../providers/neo4j/core/neo4j-config.interface';
 
 export function databaseConfig(): { database: Neo4jConfig } {
   return {
