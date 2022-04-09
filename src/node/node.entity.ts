@@ -1,12 +1,5 @@
-import {
-  IsEnum,
-  IsObject,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 
-import { PresentationConfig } from './types';
 import { NodeType } from './types/node-type.enum';
 
 export class NodeEntity {
@@ -16,9 +9,10 @@ export class NodeEntity {
   @IsString()
   data: string;
 
-  @IsObject()
-  @IsOptional()
-  presenetationConfig?: PresentationConfig = {};
+  // TODO
+  // @IsObject()
+  // @IsOptional()
+  // presenetationConfig?: PresentationConfig = {};
 
   @IsString()
   @IsOptional()
