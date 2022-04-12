@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 
+import { InputModule } from './input';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { databaseConfig } from './configs/database.config';
@@ -28,6 +29,7 @@ import { RelatinoshipModule } from './relationship';
     RelatinoshipModule,
     DebugModule,
     SketchModule,
+    InputModule,
   ],
   controllers: [AppController],
   providers: [

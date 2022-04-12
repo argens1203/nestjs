@@ -8,8 +8,8 @@ export class NodeController {
   constructor(private readonly nodeService: NodeService) {}
 
   @Post()
-  async putNode(@Body() dto: CreateNodeDto): Promise<any> {
-    return await this.nodeService.create(dto);
+  async putNode(@Body() dto: CreateNodeDto[]): Promise<any> {
+    return await this.nodeService.create(dto[0]);
   }
 
   @Get(':ref')
