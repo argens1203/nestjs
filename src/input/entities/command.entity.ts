@@ -2,7 +2,6 @@ import { Type } from 'class-transformer';
 import { IsEnum, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 import { Actions, EntityType } from '../enums';
-import { NodeCommand } from '../types/node-command.type';
 
 import { CommandData } from './comand-data.entity';
 
@@ -31,5 +30,5 @@ type ActionInput = {
 };
 
 type ICommandData = {
-  data: NodeCommand;
+  data: CommandData;
 };

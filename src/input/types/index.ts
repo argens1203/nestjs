@@ -1,1 +1,1 @@
-export * from './node-command.type';
+export * from './response-options.type';

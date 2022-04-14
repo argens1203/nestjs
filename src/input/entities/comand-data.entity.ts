@@ -1,12 +1,25 @@
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsString, ValidateIf } from 'class-validator';
 
+import { CreateNodeDto } from '../../node/create-node.dto';
 import { NodeType } from '../../node/types';
-import { NodeCommand } from '../types/node-command.type';
 
-export class CommandData implements NodeCommand {
+export class CommandData {
   @IsEnum(NodeType)
+  @ValidateIf((o) => !o.ref)
   type: NodeType;
 
   @IsString()
-  data: string;
+  @ValidateIf((o) => !o.ref)
+  data?: string;
+
+  @IsString()
+  @ValidateIf((o) => !o.data)
+  ref?: string;
+
+  toCreateNodeDto(): CreateNodeDto {
+    return {
+      type: this.type,
+      data: this.data,
+    };
+  }
 }
