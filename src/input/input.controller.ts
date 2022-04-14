@@ -1,6 +1,6 @@
 import { Body, Controller, ParseArrayPipe, Post } from '@nestjs/common';
 
-import { Command } from './command.entity';
+import { Command } from './entities';
 import { InputService } from './input.service';
 
 @Controller('command')
@@ -18,6 +18,8 @@ export class InputController {
     )
     commands: Command[],
   ): Promise<any> {
-    return await this.inputService.handleCommands(commands);
+    const res = await this.inputService.handleCommands(commands);
+    console.log(res);
+    return res;
   }
 }

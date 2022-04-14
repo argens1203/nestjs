@@ -1,24 +1,23 @@
 import { Type } from 'class-transformer';
-import { IsEnum, IsString, ValidateNested } from 'class-validator';
+import { IsEnum, IsOptional, IsString, ValidateNested } from 'class-validator';
 
-import { CreateNodeDto } from '../node/create-node.dto';
-import { NodeType } from '../node/types';
+import { Actions, EntityType } from '../enums';
+import { NodeCommand } from '../types/node-command.type';
 
-import { Actions } from './action.enum';
+import { CommandData } from './comand-data.entity';
 
 // export type Input = NodeInput;
-
-class CommandData implements NodeCommand {
-  @IsEnum(NodeType)
-  type: NodeType;
-
-  @IsString()
-  data: string;
-}
 
 export class Command implements ICommand {
   @IsEnum(Actions)
   action: Actions;
+
+  @IsEnum(EntityType)
+  type: EntityType;
+
+  @IsString()
+  @IsOptional()
+  ref?: string;
 
   @ValidateNested({ each: true })
   @Type(() => CommandData)
@@ -34,5 +33,3 @@ type ActionInput = {
 type ICommandData = {
   data: NodeCommand;
 };
-
-type NodeCommand = CreateNodeDto;

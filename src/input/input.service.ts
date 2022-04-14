@@ -1,41 +1,51 @@
 import { Injectable } from '@nestjs/common';
-import { generate as uuid } from 'short-uuid';
 
 import { NodeService } from '../node/node.service';
-import { RepositoryService } from '../providers/neo4j/repository/repository.service';
 
-import { Actions } from './action.enum';
-import { Command } from './command.entity';
+import { Command } from './entities';
+import { EntityType } from './enums';
+import { Actions } from './enums/action.enum';
 
 @Injectable()
 export class InputService {
   constructor(private readonly nodeService: NodeService) {}
 
   async handleCommands(inputs: Command[]) {
-    return await Promise.all(inputs.map(this.handleOneCommand.bind(this)));
+    const promises = inputs.map((input) =>
+      this.handleOneCommand(input)
+        .then((args) => this.createSuccessResponse(...args))
+        .catch(this.createFailureResponse.bind(this)),
+    );
+    return await Promise.all(promises);
   }
 
-  async handleOneCommand(input: Command) {
-    switch (input.action) {
-      case Actions.CREATE:
-        return await this.handleCreate(input);
+  async handleOneCommand(input: Command): Promise<[any, ResponseOptions]> {
+    const { type, ref } = input;
+    switch (type) {
+      case EntityType.NODE:
+        return [await this.handleNodeCommand(input), { ref }];
     }
     return null;
   }
 
-  async handleCreate(input: Command) {
-    try {
-      const nodeEntity = await this.nodeService.create(input.data);
-      return this.createSuccessResponse(nodeEntity);
-    } catch (e) {
-      return this.createFailureResponse(e);
+  async handleNodeCommand(input: Command) {
+    switch (input.action) {
+      case Actions.CREATE:
+        return await this.handleCreateNode(input);
     }
+    return null;
   }
 
-  createSuccessResponse(input: any) {
+  async handleCreateNode(input: Command) {
+    return await this.nodeService.create(input.data);
+  }
+
+  createSuccessResponse(data: any, options: ResponseOptions = {}) {
+    const { ref } = options;
     return {
       success: true,
-      data: input,
+      ref,
+      data,
     };
   }
 
@@ -47,3 +57,7 @@ export class InputService {
     };
   }
 }
+
+type ResponseOptions = {
+  ref?: string;
+};
