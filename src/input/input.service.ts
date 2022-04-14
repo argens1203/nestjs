@@ -32,12 +32,18 @@ export class InputService {
     switch (input.action) {
       case Actions.CREATE:
         return await this.handleCreateNode(input);
+      case Actions.SCAN:
+        return await this.handleScanNode();
     }
     return null;
   }
 
   async handleCreateNode(input: Command) {
     return await this.nodeService.create(input.data);
+  }
+
+  async handleScanNode() {
+    return await this.nodeService.scan();
   }
 
   createSuccessResponse(data: any, options: ResponseOptions = {}) {
