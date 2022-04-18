@@ -1,7 +1,9 @@
+import { EntityType } from '@argens1203/swap-model';
 import { Injectable } from '@nestjs/common';
 
-import { Command } from './entities';
-import { EntityType } from './enums';
+import { NodeEntity } from '../node';
+
+import { Command } from './commands';
 import { NodeCommandHandler } from './handlers';
 import { createSuccessResponse, createFailureResponse } from './responses';
 import { ResponseOptions } from './types';
@@ -10,7 +12,7 @@ import { ResponseOptions } from './types';
 export class InputService {
   constructor(private readonly nodeCommandHandler: NodeCommandHandler) {}
 
-  async handleCommands(inputs: Command[]) {
+  async handleCommands(inputs: Command<NodeEntity>[]) {
     const promises = inputs.map((input) =>
       this.handleOneCommand(input)
         .then((args) => createSuccessResponse(...args))
@@ -19,7 +21,9 @@ export class InputService {
     return await Promise.all(promises);
   }
 
-  async handleOneCommand(input: Command): Promise<[any, ResponseOptions]> {
+  async handleOneCommand(
+    input: Command<NodeEntity>,
+  ): Promise<[any, ResponseOptions]> {
     switch (input.type) {
       case EntityType.NODE:
         return await this.nodeCommandHandler.handleNodeCommand(input);

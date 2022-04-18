@@ -10,4 +10,4 @@ import { RelationshipService } from './relationship.service';
   providers: [RelationshipService],
   exports: [RelationshipService],
 })
-export class RelatinoshipModule {}
+export class RelationshipModule {}

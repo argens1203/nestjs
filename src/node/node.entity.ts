@@ -1,15 +1,15 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { EntityType, INodeEntity, NodeType } from '@argens1203/swap-model';
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 
-import { NodeType } from './types/node-type.enum';
+import { Entity } from '../input/entities/base.entity';
 
-export class NodeEntity {
+export class NodeEntity extends Entity implements INodeEntity {
+  entityType: EntityType.NODE = EntityType.NODE;
+
   @IsEnum(NodeType)
-  @ApiProperty()
   type: NodeType;
 
   @IsString()
-  @ApiProperty()
   data: string;
 
   // TODO
@@ -19,10 +19,8 @@ export class NodeEntity {
 
   @IsString()
   @IsOptional()
-  @ApiProperty()
   preferredPresentation?: string;
 
   @IsString()
-  @ApiProperty()
   ref: string;
 }

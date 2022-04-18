@@ -1,2 +1,1 @@
-export * from './comand-data.entity';
-export * from './command.entity';
+export * from './base.entity';

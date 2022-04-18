@@ -1,4 +1,6 @@
+import { RequestRef, Resolution } from '@argens1203/swap-model';
+
 export type ResponseOptions = {
-  ref?: string;
-  resolution?: string;
+  ref?: RequestRef;
+  resolution?: Resolution;
 };

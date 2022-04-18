@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 
 import { RepositoryModule } from '../providers/neo4j/repository/repository.module';
 
+import { NODE } from './node.const';
 import { NodeService } from './node.service';
-import { NODE } from './types/node.const';
 
 @Module({
   imports: [RepositoryModule.forRoot({ type: NODE })],

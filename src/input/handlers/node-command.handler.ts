@@ -1,28 +1,36 @@
+import { Action, Resolution } from '@argens1203/swap-model';
 import { Injectable } from '@nestjs/common';
 
+import { NodeEntity } from '../../node';
+import { CreateNodeDto } from '../../node/create-node.dto';
 import { NodeService } from '../../node/node.service';
-import { Command } from '../entities';
-import { Actions } from '../enums';
-import { Resolution } from '../enums/resolution.enum';
+import {
+  Command,
+  CreateCommand,
+  DeleteCommand,
+  ScanCommand,
+} from '../commands';
 import { ResponseOptions } from '../types';
 
 @Injectable()
 export class NodeCommandHandler {
   constructor(private readonly nodeService: NodeService) {}
 
-  async handleNodeCommand(input: Command) {
+  async handleNodeCommand(input: Command<NodeEntity>) {
     switch (input.action) {
-      case Actions.CREATE:
-        return await this.handleCreateNode(input);
-      case Actions.SCAN:
-        return await this.handleScanNode(input);
-      case Actions.DELETE:
-        return await this.handleDeleteNode(input);
+      case Action.CREATE:
+        return await this.handleCreateNode(input as CreateCommand<NodeEntity>);
+      case Action.SCAN:
+        return await this.handleScanNode(input as ScanCommand<NodeEntity>);
+      case Action.DELETE:
+        return await this.handleDeleteNode(input as DeleteCommand<NodeEntity>);
     }
     return null;
   }
 
-  async handleDeleteNode(input: Command): Promise<[any, ResponseOptions]> {
+  async handleDeleteNode(
+    input: DeleteCommand<NodeEntity>,
+  ): Promise<[any, ResponseOptions]> {
     await this.nodeService.deleteByRef(input.data.ref);
     return [
       { ref: input.data.ref },
@@ -32,12 +40,20 @@ export class NodeCommandHandler {
     ];
   }
 
-  async handleCreateNode(input: Command): Promise<[any, ResponseOptions]> {
-    const node = await this.nodeService.create(input.data.toCreateNodeDto());
+  async handleCreateNode(
+    input: CreateCommand<NodeEntity>,
+  ): Promise<[any, ResponseOptions]> {
+    const dto = new CreateNodeDto({
+      type: input.data.type,
+      data: input.data.data,
+    });
+    const node = await this.nodeService.create(dto);
     return [node, { ref: input.ref, resolution: Resolution.CREATED }];
   }
 
-  async handleScanNode(input: Command): Promise<[any, ResponseOptions]> {
+  async handleScanNode(
+    input: ScanCommand<NodeEntity>,
+  ): Promise<[any, ResponseOptions]> {
     const nodes = await this.nodeService.scan();
     return [nodes, { ref: input.ref }];
   }
