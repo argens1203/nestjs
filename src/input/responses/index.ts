@@ -1,20 +1,6 @@
-import { ResponseOptions } from '../types';
+export * from './response-builder.util';
 
-export function createSuccessResponse(
-  data: any,
-  options: ResponseOptions = {},
-) {
-  return {
-    success: true,
-    ...options,
-    data,
-  };
-}
-
-export function createFailureResponse(e: Error) {
-  return {
-    success: false,
-    error: e.name,
-    message: e.message,
-  };
-}
+export * from './create-response.entity';
+export * from './delete-response.entity';
+export * from './scan-response.entity';
+export * from './ref-response.entity';

@@ -10,6 +10,7 @@ import {
   DeleteCommand,
   ScanCommand,
 } from '../commands';
+import { RefObject } from '../responses';
 import { ResponseOptions } from '../types';
 
 @Injectable()
@@ -30,7 +31,7 @@ export class NodeCommandHandler {
 
   async handleDeleteNode(
     input: DeleteCommand<NodeEntity>,
-  ): Promise<[any, ResponseOptions]> {
+  ): Promise<[RefObject<NodeEntity>, ResponseOptions]> {
     await this.nodeService.deleteByRef(input.data.ref);
     return [
       { ref: input.data.ref },
@@ -42,7 +43,7 @@ export class NodeCommandHandler {
 
   async handleCreateNode(
     input: CreateCommand<NodeEntity>,
-  ): Promise<[any, ResponseOptions]> {
+  ): Promise<[NodeEntity, ResponseOptions]> {
     const dto = new CreateNodeDto({
       type: input.data.type,
       data: input.data.data,
@@ -53,7 +54,7 @@ export class NodeCommandHandler {
 
   async handleScanNode(
     input: ScanCommand<NodeEntity>,
-  ): Promise<[any, ResponseOptions]> {
+  ): Promise<[NodeEntity[], ResponseOptions]> {
     const nodes = await this.nodeService.scan();
     return [nodes, { ref: input.ref }];
   }

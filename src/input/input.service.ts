@@ -5,7 +5,11 @@ import { NodeEntity } from '../node';
 
 import { Command } from './commands';
 import { NodeCommandHandler } from './handlers';
-import { createSuccessResponse, createFailureResponse } from './responses';
+import {
+  createSuccessResponse,
+  createFailureResponse,
+  RefObject,
+} from './responses';
 import { ResponseOptions } from './types';
 
 @Injectable()
@@ -23,7 +27,9 @@ export class InputService {
 
   async handleOneCommand(
     input: Command<NodeEntity>,
-  ): Promise<[any, ResponseOptions]> {
+  ): Promise<
+    [NodeEntity | RefObject<NodeEntity> | NodeEntity[], ResponseOptions]
+  > {
     switch (input.type) {
       case EntityType.NODE:
         return await this.nodeCommandHandler.handleNodeCommand(input);
