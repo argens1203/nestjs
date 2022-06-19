@@ -1,4 +1,4 @@
-import { EntityType } from '@argens1203/swap-model';
+import { NodeType } from '@argens1203/swap-model';
 import { Injectable } from '@nestjs/common';
 
 import { NodeEntity } from '../node';
@@ -31,7 +31,7 @@ export class InputService {
     [NodeEntity | RefObject<NodeEntity> | NodeEntity[], ResponseOptions]
   > {
     switch (input.type) {
-      case EntityType.NODE:
+      case NodeType.ENTITY:
         return await this.nodeCommandHandler.handleNodeCommand(input);
     }
     return null;

@@ -1,5 +1,5 @@
-import { NodeType, Presentation } from '@argens1203/swap-model';
-import { Injectable, NotImplementedException } from '@nestjs/common';
+import { DataType, Presentation } from '@argens1203/swap-model';
+import { Injectable } from '@nestjs/common';
 
 import { CreateNodeDto } from '../../node/create-node.dto';
 import { NodeEntity } from '../../node/node.entity';
@@ -14,7 +14,7 @@ export class SketchService {
   async create(dto: CreateSketchDto) {
     const obj = new CreateNodeDto({
       ...dto,
-      type: NodeType.STRING,
+      type: DataType.STRING,
       preferredPresentation: Presentation.SKETCH,
     });
     return await this.nodeService.create(obj);

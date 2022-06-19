@@ -1,7 +1,7 @@
 import {
-  EntityType,
   ICreateResponse,
-  IEntity,
+  INode,
+  NodeType,
   Resolution,
 } from '@argens1203/swap-model';
 import { Type } from 'class-transformer';
@@ -12,7 +12,7 @@ import { Entity } from '../entities';
 
 import { Response } from './response.entity';
 
-export class CreateResponse<T extends IEntity>
+export class CreateResponse<T extends INode>
   extends Response
   implements ICreateResponse<T>
 {
@@ -23,8 +23,8 @@ export class CreateResponse<T extends IEntity>
   @ValidateNested()
   @Type(() => Entity, {
     discriminator: {
-      property: 'entityType',
-      subTypes: [{ value: NodeEntity, name: EntityType.NODE }],
+      property: 'nodeType',
+      subTypes: [{ value: NodeEntity, name: NodeType.ENTITY }],
     },
   })
   data: T;

@@ -1,8 +1,8 @@
 import {
   Action,
-  EntityType,
+  NodeType,
   IDeleteCommand,
-  IEntity,
+  INode,
 } from '@argens1203/swap-model';
 import { Type } from 'class-transformer';
 import { Equals, ValidateNested } from 'class-validator';
@@ -12,7 +12,7 @@ import { Entity } from '../entities';
 
 import { Command } from './command.entity';
 
-export class DeleteCommand<T extends IEntity>
+export class DeleteCommand<T extends INode>
   extends Command<T>
   implements IDeleteCommand<T>
 {
@@ -23,8 +23,8 @@ export class DeleteCommand<T extends IEntity>
   @ValidateNested()
   @Type(() => Entity, {
     discriminator: {
-      property: 'entityType',
-      subTypes: [{ value: NodeEntity, name: EntityType.NODE }],
+      property: 'nodeType',
+      subTypes: [{ value: NodeEntity, name: NodeType.ENTITY }],
     },
   })
   data: T;

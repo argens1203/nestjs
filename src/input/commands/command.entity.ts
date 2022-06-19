@@ -2,13 +2,13 @@ import {
   RequestRef,
   ICommand,
   Action,
-  IEntity,
-  EntityType,
+  INode,
+  NodeType,
 } from '@argens1203/swap-model';
 import { Allow, IsOptional, IsString } from 'class-validator';
 import { IsEnum } from 'class-validator';
 
-export class Command<T extends IEntity> implements ICommand<T> {
+export class Command<T extends INode> implements ICommand<T> {
   @IsEnum(Action)
   action: Action;
 
@@ -16,8 +16,8 @@ export class Command<T extends IEntity> implements ICommand<T> {
   @IsOptional()
   ref?: RequestRef;
 
-  @IsEnum(EntityType)
-  type: T['entityType'];
+  @IsEnum(NodeType)
+  type: T['nodeType'];
 
   @Allow()
   data?: T | T[];

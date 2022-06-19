@@ -1,7 +1,7 @@
-import { EntityType, IEntity } from '@argens1203/swap-model';
+import { NodeType, INode } from '@argens1203/swap-model';
 
-export abstract class Entity implements IEntity {
-  entityType: EntityType;
+export abstract class Entity implements INode {
+  nodeType: NodeType;
 
   ref: any;
 }
