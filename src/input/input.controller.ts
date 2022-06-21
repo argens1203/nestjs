@@ -1,6 +1,6 @@
 import { Body, Controller, ParseArrayPipe, Post } from '@nestjs/common';
 
-import { NodeEntity } from '../node';
+import { EntityNode } from '../node';
 
 import { Command } from './commands';
 import { InputService } from './input.service';
@@ -18,7 +18,7 @@ export class InputController {
         forbidNonWhitelisted: true,
       }),
     )
-    commands: Command<NodeEntity>[],
+    commands: Command<EntityNode>[],
   ): Promise<any> {
     const res = await this.inputService.handleCommands(commands);
     console.log(res);

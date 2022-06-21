@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { generate as uuid } from 'short-uuid';
 
+import { Node } from '../input/entities';
 import { RepositoryService } from '../providers/neo4j/repository/repository.service';
 
 import { CreateNodeDto } from './create-node.dto';
@@ -15,8 +16,9 @@ export class NodeService {
     return await this.repositoryService.create(obj);
   }
 
-  async getByRef(ref: string) {
-    return await this.repositoryService.get({ ref });
+  async getByRef(ref: string): Promise<Node> {
+    const node = await this.repositoryService.get({ ref });
+    return (node?.[0] as unknown as Node) || null;
   }
 
   async deleteByRef(ref: string) {

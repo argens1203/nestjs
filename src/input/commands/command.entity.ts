@@ -8,7 +8,7 @@ import {
 import { Allow, IsOptional, IsString } from 'class-validator';
 import { IsEnum } from 'class-validator';
 
-export class Command<T extends INode> implements ICommand<T> {
+export class Command<T extends INode> implements ICommand {
   @IsEnum(Action)
   action: Action;
 
@@ -17,7 +17,7 @@ export class Command<T extends INode> implements ICommand<T> {
   ref?: RequestRef;
 
   @IsEnum(NodeType)
-  type: T['nodeType'];
+  nodeType: T['nodeType'];
 
   @Allow()
   data?: T | T[];

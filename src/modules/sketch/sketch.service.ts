@@ -2,7 +2,7 @@ import { DataType, Presentation } from '@argens1203/swap-model';
 import { Injectable } from '@nestjs/common';
 
 import { CreateNodeDto } from '../../node/create-node.dto';
-import { NodeEntity } from '../../node/node.entity';
+import { EntityNode } from '../../node/entity-node';
 import { NodeService } from '../../node/node.service';
 
 import { CreateSketchDto } from './create-sketch.dto';
@@ -20,15 +20,20 @@ export class SketchService {
     return await this.nodeService.create(obj);
   }
 
-  async getByRef(ref: string) {
-    return await this.nodeService.getByRef(ref);
+  async getByRef(ref: string): Promise<EntityNode | null> {
+    const node = await this.nodeService.getByRef(ref);
+    if (node instanceof EntityNode) {
+      return node;
+    } else {
+      return null;
+    }
   }
 
   async deleteByRef(ref: string) {
     return await this.nodeService.deleteByRef(ref);
   }
 
-  async scan(): Promise<NodeEntity[]> {
+  async scan(): Promise<EntityNode[]> {
     const res = await this.nodeService.scan();
     return res.filter(
       (res) => res.preferredPresentation === Presentation.SKETCH,

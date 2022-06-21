@@ -13,7 +13,7 @@ export class NodeController {
   }
 
   @Get(':ref')
-  async getNode(@Param() params): Promise<any[]> {
+  async getNode(@Param() params): Promise<any> {
     return await this.nodeService.getByRef(params.ref);
   }
 

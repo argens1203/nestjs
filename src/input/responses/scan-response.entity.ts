@@ -2,8 +2,8 @@ import { INode, IScanResponse, NodeType } from '@argens1203/swap-model';
 import { Type } from 'class-transformer';
 import { ValidateNested } from 'class-validator';
 
-import { NodeEntity } from '../../node';
-import { Entity } from '../entities';
+import { EntityNode } from '../../node';
+import { Node } from '../entities';
 
 import { Response } from './response.entity';
 
@@ -12,10 +12,10 @@ export class ScanResponse<T extends INode>
   implements IScanResponse<T>
 {
   @ValidateNested()
-  @Type(() => Entity, {
+  @Type(() => Node, {
     discriminator: {
       property: 'nodeType',
-      subTypes: [{ value: NodeEntity, name: NodeType.ENTITY }],
+      subTypes: [{ value: EntityNode, name: NodeType.ENTITY }],
     },
   })
   data: T[];

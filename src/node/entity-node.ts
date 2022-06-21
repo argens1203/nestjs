@@ -1,9 +1,9 @@
 import { IEntityNode, NodeType, DataType } from '@argens1203/swap-model';
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 
-import { Entity } from '../input/entities/base.entity';
+import { Node } from '../input/entities/base.entity';
 
-export class NodeEntity extends Entity implements IEntityNode {
+export class EntityNode extends Node implements IEntityNode {
   nodeType: NodeType = NodeType.ENTITY;
 
   @IsEnum(DataType)

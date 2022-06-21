@@ -1,8 +1,10 @@
+import { NodeType } from '@argens1203/swap-model';
+
 import { ResponseOptions } from '../types';
 
 export function createSuccessResponse(
   data: any,
-  options: ResponseOptions = {},
+  options: ResponseOptions = { nodeType: NodeType.ENTITY },
 ) {
   return {
     success: true,

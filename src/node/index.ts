@@ -1,3 +1,3 @@
 export * from './node.module';
-export * from './node.entity';
+export * from './entity-node';
 export * from '../debug/node.controller';

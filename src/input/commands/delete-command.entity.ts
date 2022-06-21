@@ -7,8 +7,8 @@ import {
 import { Type } from 'class-transformer';
 import { Equals, ValidateNested } from 'class-validator';
 
-import { NodeEntity } from '../../node';
-import { Entity } from '../entities';
+import { EntityNode } from '../../node';
+import { Node } from '../entities';
 
 import { Command } from './command.entity';
 
@@ -21,10 +21,10 @@ export class DeleteCommand<T extends INode>
 
   //TODO: Probably doesn't work
   @ValidateNested()
-  @Type(() => Entity, {
+  @Type(() => Node, {
     discriminator: {
       property: 'nodeType',
-      subTypes: [{ value: NodeEntity, name: NodeType.ENTITY }],
+      subTypes: [{ value: EntityNode, name: NodeType.ENTITY }],
     },
   })
   data: T;

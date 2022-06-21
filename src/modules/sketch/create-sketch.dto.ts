@@ -1,5 +1,5 @@
 import { PickType } from '@nestjs/swagger';
 
-import { NodeEntity } from '../../node/node.entity';
+import { EntityNode } from '../../node/entity-node';
 
-export class CreateSketchDto extends PickType(NodeEntity, ['data']) {}
+export class CreateSketchDto extends PickType(EntityNode, ['data']) {}
