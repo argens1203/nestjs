@@ -7,7 +7,7 @@ export class EntityNode extends Node implements IEntityNode {
   nodeType: NodeType = NodeType.ENTITY;
 
   @IsEnum(DataType)
-  type: DataType;
+  dataType: DataType;
 
   @IsString()
   data: string;

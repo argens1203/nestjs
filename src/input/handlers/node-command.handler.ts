@@ -46,7 +46,7 @@ export class NodeCommandHandler {
     input: CreateCommand<EntityNode>,
   ): Promise<[EntityNode, ResponseOptions]> {
     const dto = new CreateNodeDto({
-      type: input.data.type,
+      dataType: input.data.dataType,
       data: input.data.data,
     });
     const node = await this.nodeService.create(dto);

@@ -14,7 +14,7 @@ export class SketchService {
   async create(dto: CreateSketchDto) {
     const obj = new CreateNodeDto({
       ...dto,
-      type: DataType.STRING,
+      dataType: DataType.STRING,
       preferredPresentation: Presentation.SKETCH,
     });
     return await this.nodeService.create(obj);
