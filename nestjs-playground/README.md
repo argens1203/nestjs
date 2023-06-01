@@ -1,0 +1,1 @@
+A playground NestJS app for experimenting with Dependency Injection of NestJS, with exporting config modules that is asynchronously injected into inner module.
