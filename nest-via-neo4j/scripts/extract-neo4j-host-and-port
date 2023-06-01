@@ -1,0 +1,8 @@
+#!/bin/bash
+dbPort=7687
+scriptDir=$(dirname -- "$(readlink -f -- "$BASH_SOURCE")")
+configDir=$scriptDir/../configs
+file=$configDir/.env.local.neo4j
+port=$(kubectl get service/neo4j-nodeport -o=jsonpath='{.spec.ports[?(@.targetPort=='${dbPort}')].nodePort}')
+echo NEO4J_HOST=$(minikube ip) >> $file
+echo NEO4J_PORT=$port >> $file

@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: nest-neo4j
+spec:
+  template:
+    metadata:
+      name: nest-neo4j
+    spec:
+      hostNetwork: false
+      containers:
+      - name: nest-neo4j
+        image: nest-neo4j
+        imagePullPolicy: Never
+      restartPolicy: Never
+      automountServiceAccountToken: false
