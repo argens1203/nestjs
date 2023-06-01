@@ -1,0 +1,105 @@
+{
+  "name": "nestjs-otel",
+  "version": "1.8.2",
+  "description": "NestJS OpenTelemetry Library",
+  "main": "lib/index.js",
+  "typings": "lib/index",
+  "scripts": {
+    "prebuild": "rimraf lib",
+    "prepare": "husky install",
+    "build": "tsc",
+    "lint": "eslint . --ext .js,ts",
+    "format": "eslint . --ext .js,ts --fix",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:coverage": "jest --coverage",
+    "test:unit": "jest --passWithNoTests",
+    "test:watch": "jest --watch",
+    "test:integration": "jest --config ./tests/jest-e2e.json --runInBand --detectOpenHandles",
+    "test:integration:watch": "jest --config ./tests/jest-e2e.json --runInBand --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pragmaticivan/nestjs-otel.git"
+  },
+  "keywords": [
+    "nestjs",
+    "opentelemetry",
+    "otel",
+    "tracing",
+    "observability",
+    "prometheus"
+  ],
+  "author": "pragmaticivan@gmail.com",
+  "license": "Apache 2",
+  "test": "jest --ci --runInBand",
+  "bugs": {
+    "url": "https://github.com/pragmaticivan/nestjs-otel/issues"
+  },
+  "homepage": "https://github.com/pragmaticivan/nestjs-otel#readme",
+  "dependencies": {
+    "@opentelemetry/host-metrics": "^0.22.0",
+    "@nestjs/swagger": "^5.0.1",
+    "@opentelemetry/api": "^1.0.1",
+    "@opentelemetry/api-metrics": "^0.22.0",
+    "@opentelemetry/sdk-node": "^0.22.0",
+    "@opentelemetry/metrics": "^0.22.0",
+    "opentelemetry-node-metrics": "^1.0.2",
+    "response-time": "^2.3.2"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "@nestjs/common": "^7.6.18",
+    "@nestjs/core": "^7.6.18",
+    "@nestjs/platform-express": "^7.6.18",
+    "@nestjs/testing": "^7.6.18",
+    "@opentelemetry/exporter-prometheus": "^0.22.0",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.12.4",
+    "@types/supertest": "^2.0.11",
+    "@typescript-eslint/eslint-plugin": "4.28.1",
+    "@typescript-eslint/parser": "4.28.1",
+    "eslint": "7.29.0",
+    "eslint-config-airbnb-typescript": "12.3.1",
+    "eslint-plugin-import": "2.23.4",
+    "husky": "^7.0.0",
+    "jest": "^27.0.5",
+    "lint-staged": "^11.0.0",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
+    "rxjs": "^7.1.0",
+    "supertest": "^6.1.4",
+    "ts-jest": "^27.0.3",
+    "typescript": "4.3.5"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^7.6.18",
+    "@nestjs/core": "^7.6.18"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts",
+      "node"
+    ],
+    "rootDir": "./src",
+    "reporters": [
+      "default"
+    ],
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "./test-results/coverage",
+    "testEnvironment": "node"
+  },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --cache --fix"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
+}
